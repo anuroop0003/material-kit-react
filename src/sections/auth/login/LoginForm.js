@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+import APIService from '../../../services/api';
 import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
 const validationSchem = yup.object({
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
+  email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
   password: yup
     .string('Enter your password')
     .min(8, 'Password should be of minimum 8 characters length')
@@ -22,7 +20,6 @@ const validationSchem = yup.object({
 });
 
 export default function LoginForm() {
-
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -30,21 +27,33 @@ export default function LoginForm() {
     },
     validationSchema: validationSchem,
     onSubmit: (values) => {
-      CallApi();
+      CallApi(values);
     },
   });
 
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
     // navigate('/dashboard', { replace: true });
   };
 
-  const CallApi = () => {
-    
-  }
+  const CallApi = (values) => {
+    console.log(values);
+    setLoading(true);
+    APIService.signIn({ email: values?.email, password: values?.password })
+      .then((res) => {
+        setLoading(false);
+        navigate('/dashboard');
+        console.log(res?.data);
+        localStorage.setItem('user_data', JSON.stringify(res?.data?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
   return (
     <>
@@ -80,18 +89,17 @@ export default function LoginForm() {
             }}
           />
         </Stack>
-    
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
+        <Stack sx={{ my: 2 }}>
+          {/* <Checkbox name="remember" label="Remember me" /> */}
+          <Link textAlign="right" sx={{ cursor: 'pointer' }} variant="subtitle2" underline="hover">
+            Forgot password?
+          </Link>
+        </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
-        Login
-      </LoadingButton>
+        <LoadingButton loading={loading} fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+          Login
+        </LoadingButton>
       </form>
     </>
   );

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -26,6 +27,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -33,6 +35,8 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+    localStorage.removeItem('user_data');
+    navigate('/login');
   };
 
   return (
@@ -87,13 +91,15 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack sx={{ p: 1 }}>
+        {/*        <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
             <MenuItem key={option.label} onClick={handleClose}>
               {option.label}
             </MenuItem>
           ))}
         </Stack>
+
+        */}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

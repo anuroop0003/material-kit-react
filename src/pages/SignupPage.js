@@ -1,15 +1,14 @@
-import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 // @mui
+import { Button, Container, Divider, Link, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
-import Logo from '../components/logo';
 import Iconify from '../components/iconify';
+import Logo from '../components/logo';
 // sections
-import { LoginForm } from '../sections/auth/login';
+import { SignUpForm } from '../sections/auth/login';
 
 // ----------------------------------------------------------------------
 
@@ -41,14 +40,13 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function SignupPage() {
   const mdUp = useResponsive('up', 'md');
-  const navigate = useNavigate();
 
   return (
     <>
       <Helmet>
-        <title> Login | E Kart </title>
+        <title> Sign Up | E Kart </title>
       </Helmet>
 
       <StyledRoot>
@@ -72,16 +70,14 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to E Kart
+              Sign Up to E Kart
             </Typography>
 
-            <Typography variant="body2" sx={{ mb: 5 }}>
+            {/* <Typography variant="body2" sx={{ mb: 5 }}>
               Don’t have an account? {''}
-              <Link sx={{ cursor: 'pointer' }} onClick={() => navigate('/signup')} variant="subtitle2">
-                Get started
-              </Link>
-            </Typography>
-
+              <Link sx={{cursor:"pointer"}} variant="subtitle2">Get started</Link>
+            </Typography> */}
+            {/* 
             <Stack direction="row" spacing={2}>
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
@@ -94,15 +90,14 @@ export default function LoginPage() {
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
               </Button>
-            </Stack>
+            </Stack> */}
 
-            <Divider sx={{ my: 3 }}>
+            {/* <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR
               </Typography>
-            </Divider>
-
-            <LoginForm />
+            </Divider> */}
+            <SignUpForm />
           </StyledContent>
         </Container>
       </StyledRoot>
