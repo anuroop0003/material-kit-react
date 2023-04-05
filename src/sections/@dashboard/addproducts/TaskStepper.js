@@ -2,11 +2,12 @@ import { Step, StepLabel, Stepper } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const steps = ['Onboard Completed', 'Create a product', 'Approval Completed'];
+const steps = ['Onboard Completed', 'Create a product', 'Approval'];
 
 // ----------------------------------------------------------------------
 
-export default function AppProducts({ activeStep }) {
+export default function TaskStepper({ activeStep }) {
+  console.log(activeStep);
   return (
     // <div>AppProducts</div>
     <Stepper activeStep={activeStep} alternativeLabel>

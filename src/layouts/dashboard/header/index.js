@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -9,8 +10,9 @@ import Iconify from '../../../components/iconify';
 //
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
+// import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
+import APIService from '../../../services/api';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +45,18 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  useEffect(() => {
+    APIService.GetProfile()
+      .then((res) => {
+        console.log(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  console.log('Hello');
+
   return (
     <StyledRoot>
       <StyledToolbar>

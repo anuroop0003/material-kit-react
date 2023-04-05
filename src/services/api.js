@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 console.log('BASE_URL', BASE_URL);
 
 const userData = localStorage.getItem('user_data');
-const accesstoken = JSON.parse(userData)?.access_token;
+const accesstoken = JSON.parse(userData)?.acces_token;
 
 if (accesstoken) {
   accesToken = accesstoken;
@@ -17,7 +17,7 @@ const AxiosInterceptor = axios.create({
   baseURL: 'http://localhost:5500/',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: accesToken,
+    'access-token': accesToken,
   },
 });
 
@@ -25,9 +25,24 @@ const signIn = (data) => AxiosInterceptor.post('/auth/signin', data);
 
 const signUp = (data) => AxiosInterceptor.post('/user/signup', data);
 
+const AddProducts = (data) => AxiosInterceptor.post('/products/add', data);
+
+const SellerRegister = (data) => AxiosInterceptor.post('/seller/register', data);
+
+const SellerCheck = (data) => AxiosInterceptor.post('/seller/check', data);
+
+const GetProfile = (data) => AxiosInterceptor.post('/user/profile', data);
+
+const ProductStatus = (data) => AxiosInterceptor.post('/products/status', data);
+
 const APIService = {
   signIn,
   signUp,
+  AddProducts,
+  SellerRegister,
+  SellerCheck,
+  GetProfile,
+  ProductStatus
 };
 
 export default APIService;

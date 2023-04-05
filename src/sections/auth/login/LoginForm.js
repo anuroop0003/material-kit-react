@@ -1,13 +1,13 @@
+import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { IconButton, InputAdornment, Link, Stack, TextField } from '@mui/material';
 // components
-import APIService from '../../../services/api';
 import Iconify from '../../../components/iconify';
+import APIService from '../../../services/api';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ export default function LoginForm() {
     APIService.signIn({ email: values?.email, password: values?.password })
       .then((res) => {
         setLoading(false);
-        navigate('/dashboard');
+        navigate('/dashboard/app');
         console.log(res?.data);
         localStorage.setItem('user_data', JSON.stringify(res?.data?.data));
       })

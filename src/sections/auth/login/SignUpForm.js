@@ -84,7 +84,7 @@ export default function LoginForm() {
     })
       .then((res) => {
         setLoading(false);
-        navigate('/login');
+        navigate('/');
       })
       .catch((err) => {
         setLoading(false);

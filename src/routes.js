@@ -1,4 +1,5 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate, Outlet, useNavigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
@@ -52,3 +53,29 @@ export default function Router() {
 
   return routes;
 }
+
+function PrivateRoute() {
+  const navigate = useNavigate();
+  const userData = localStorage?.getItem('user_data');
+  const accesstoken = JSON.parse(userData)?.acces_token;
+  useEffect(() => {
+    if (!accesstoken) {
+      navigate('/');
+    }
+  }, [accesstoken]);
+  return accesstoken && <Outlet />;
+}
+
+function PublicRoute() {
+  const navigate = useNavigate();
+  const userData = localStorage?.getItem('user_data');
+  const accesstoken = JSON.parse(userData)?.acces_token;
+  useEffect(() => {
+    if (accesstoken) {
+      navigate('/dashboard/app');
+    }
+  }, [accesstoken]);
+  return !accesstoken && <Outlet />;
+}
+
+export { PrivateRoute, PublicRoute };

@@ -1,13 +1,12 @@
+import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { Grid, TextField, Typography } from '@mui/material';
 // components
 import APIService from '../../../services/api';
-import Iconify from '../../../components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +18,7 @@ const validationSchem = yup.object({
   pincode: yup.string('Enter your company pin code').required('Company pin code is required'),
 });
 
-export default function AddProductsForm({ setStepperValue }) {
+export default function AddProductsForm() {
   const formik = useFormik({
     initialValues: {
       companyname: '',
@@ -35,14 +34,18 @@ export default function AddProductsForm({ setStepperValue }) {
   });
 
   const navigate = useNavigate();
-
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const CallApi = (values) => {
     console.log(values);
     setLoading(true);
-    APIService.signIn({ email: values?.email, password: values?.password })
+    APIService.SellerRegister({
+      companyname: values?.companyname,
+      regno: values?.regno,
+      gstno: values?.gstno,
+      address: values?.address,
+      pincode: values?.pincode,
+    })
       .then((res) => {
         setLoading(false);
         navigate('/dashboard');
@@ -76,7 +79,7 @@ export default function AddProductsForm({ setStepperValue }) {
               fullWidth
               name="regno"
               id="regno"
-              label="Comapany Reg No"
+              label="Company Reg No"
               value={formik.values.regno}
               onChange={formik.handleChange}
               error={formik.touched.regno && Boolean(formik.errors.regno)}
@@ -132,7 +135,7 @@ export default function AddProductsForm({ setStepperValue }) {
             type="submit"
             variant="contained"
           >
-            Login
+            Onboard
           </LoadingButton>
         </Typography>
       </form>

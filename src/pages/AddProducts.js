@@ -1,31 +1,49 @@
-import styled from '@emotion/styled';
-import { Card, Typography } from '@mui/material';
-import { useState } from 'react';
-import { AddProductsForm, TaskStepper } from '../sections/@dashboard/addproducts';
+import { useEffect, useState } from 'react';
+import { CreateProduct, SellerOnboarding, TaskStepper, ApproveProduct } from '../sections/@dashboard/addproducts';
+import APIService from '../services/api';
 
 // ----------------------------------------------------------------------
-
-const steps = ['Onboard Completed', 'Create a product', 'Approval Completed'];
-
-const CustomCard = styled(Card)({
-  margin: '32px',
-  padding: '30px',
-});
 
 // ----------------------------------------------------------------------
 
 export default function AppProducts() {
-  const [stepperValue, setStepperValue] = useState(-1);
+  const [stepperValue, setStepperValue] = useState({ stepper: -1, status: '' });
+
+  useEffect(() => {
+    APIService.SellerCheck().then((res) => {
+      console.log(res?.data?.data);
+      if (res?.data?.data?.status === 'pending') {
+        setStepperValue({ stepper: -1, status: 'pending' });
+      }
+      if (res?.data?.data?.status === 'success') {
+        setStepperValue({ stepper: 1, status: 'success' });
+      }
+      return null;
+    });
+    // APIService.ProductStatus().then((res) => {
+    //   console.log(res?.data?.data);
+    //   if (res?.data?.data?.status === 'pending') {
+    //     setStepperValue({ stepper: 1, status: 'pending' });
+    //   }
+    //   if (res?.data?.data?.status === 'success') {
+    //     setStepperValue({ stepper: 3, status: 'success' });
+    //   }
+    //   return null;
+    // });
+  }, []);
 
   return (
     <div>
-      <TaskStepper activeStep={stepperValue} />
-      <CustomCard>
-        <Typography marginBottom="30px" component="div" width="100%" textAlign="center" fontSize="20px">
-          Seller Onboarding
-        </Typography>
-        <AddProductsForm setStepperValue={setStepperValue} />
-      </CustomCard>
+      <TaskStepper activeStep={stepperValue?.stepper} />
+      {stepperValue?.stepper === -1 && (
+        <SellerOnboarding status={stepperValue.status} />
+      )}
+      {stepperValue?.stepper === 1 && (
+        <CreateProduct setStepperValue={setStepperValue} status={stepperValue.status} />
+      )}
+            {stepperValue?.stepper === 3 && (
+        <ApproveProduct setStepperValue={setStepperValue} status={stepperValue.status} />
+      )}
     </div>
   );
 }
