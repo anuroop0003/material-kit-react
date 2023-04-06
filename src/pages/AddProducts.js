@@ -11,7 +11,6 @@ export default function AppProducts() {
 
   useEffect(() => {
     APIService.SellerCheck().then((res) => {
-      console.log(res?.data?.data);
       if (res?.data?.data?.status === 'pending') {
         setStepperValue({ stepper: -1, status: 'pending' });
       }
@@ -20,16 +19,6 @@ export default function AppProducts() {
       }
       return null;
     });
-    // APIService.ProductStatus().then((res) => {
-    //   console.log(res?.data?.data);
-    //   if (res?.data?.data?.status === 'pending') {
-    //     setStepperValue({ stepper: 1, status: 'pending' });
-    //   }
-    //   if (res?.data?.data?.status === 'success') {
-    //     setStepperValue({ stepper: 3, status: 'success' });
-    //   }
-    //   return null;
-    // });
   }, []);
 
   return (

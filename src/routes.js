@@ -15,7 +15,7 @@ import AddProducts from './pages/AddProducts';
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+function Router() {
   const routes = useRoutes([
     {
       path: '/dashboard',
@@ -78,4 +78,4 @@ function PublicRoute() {
   return !accesstoken && <Outlet />;
 }
 
-export { PrivateRoute, PublicRoute };
+export { PrivateRoute, PublicRoute, Router };

@@ -41,13 +41,11 @@ export default function LoginForm() {
   };
 
   const CallApi = (values) => {
-    console.log(values);
     setLoading(true);
     APIService.signIn({ email: values?.email, password: values?.password })
       .then((res) => {
         setLoading(false);
         navigate('/dashboard/app');
-        console.log(res?.data);
         localStorage.setItem('user_data', JSON.stringify(res?.data?.data));
       })
       .catch((err) => {

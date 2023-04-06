@@ -37,7 +37,6 @@ export default function AddProductsForm() {
   const [loading, setLoading] = useState(false);
 
   const CallApi = (values) => {
-    console.log(values);
     setLoading(true);
     APIService.SellerRegister({
       companyname: values?.companyname,
@@ -49,7 +48,6 @@ export default function AddProductsForm() {
       .then((res) => {
         setLoading(false);
         navigate('/dashboard');
-        console.log(res?.data);
         localStorage.setItem('user_data', JSON.stringify(res?.data?.data));
       })
       .catch((err) => {

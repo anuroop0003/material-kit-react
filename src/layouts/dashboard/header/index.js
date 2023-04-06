@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { setdata } from '../../../stateManagement/Slices/fetchProfile';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
@@ -45,17 +47,19 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     APIService.GetProfile()
       .then((res) => {
-        console.log(res?.data);
+        console.log(res?.data?.data);
+        dispatch(setdata(res?.data?.data));
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  console.log('Hello');
 
   return (
     <StyledRoot>

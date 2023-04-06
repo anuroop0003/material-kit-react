@@ -1,16 +1,15 @@
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
-import { LoadingButton } from '@mui/lab';
-import { Badge, Button, Grid, IconButton, MenuItem, TextField, Typography, useMediaQuery } from '@mui/material';
 import styled from '@emotion/styled';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import { LoadingButton } from '@mui/lab';
+import { Badge, Button, Grid, IconButton, MenuItem, TextField, Typography, useMediaQuery } from '@mui/material';
 // components
 import APIService from '../../../services/api';
 import CreateProductsPreview from './CreateProductsPreview';
@@ -58,7 +57,6 @@ export default function CreateProductForm({setStepperValue}) {
 
     validationSchema: validationSchem,
     onSubmit: (values) => {
-      console.log("clicked");
       if(images.length === 0){
         formik.setFieldValue("file", "")
       }
@@ -134,13 +132,9 @@ export default function CreateProductForm({setStepperValue}) {
   const handleImageOnChange = (event) => {
     handleFileChange(event);
     formik.handleChange(event);
-    console.log("imahes length", images.length)
   };
 
   function ImageChecker(image) {
-    // let tempsize = false;
-    // let tempfiletype = false;
-    // console.log(image.name, image.filetype === "image/png" && "image/jpeg", image.size <= 1000000)
     if(images.length === 0){
       formik.setFieldValue("file", "")
     }
@@ -151,8 +145,6 @@ export default function CreateProductForm({setStepperValue}) {
       return <CancelRoundedIcon sx={{color:"red"}} />
     }
   }
-
-  console.log("forlim values", formik.values)
 
   return (
     <>

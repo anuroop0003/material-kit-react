@@ -1,23 +1,19 @@
+import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
 // @mui
+import { LoadingButton } from '@mui/lab';
 import {
-  Link,
-  Stack,
   IconButton,
   InputAdornment,
-  TextField,
-  Checkbox,
-  Select,
   MenuItem,
-  FormHelperText,
+  Stack,
+  TextField
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 // components
-import APIService from '../../../services/api';
 import Iconify from '../../../components/iconify';
+import APIService from '../../../services/api';
 
 // ----------------------------------------------------------------------
 
@@ -73,7 +69,6 @@ export default function LoginForm() {
   };
 
   const CallApi = (values) => {
-    console.log(values);
     setLoading(true);
     APIService.signUp({
       name: values?.name,
