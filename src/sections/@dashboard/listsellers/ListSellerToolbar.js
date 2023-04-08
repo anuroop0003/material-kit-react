@@ -5,7 +5,7 @@ import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment
 // component
 import Iconify from '../../../components/iconify';
 
-// ----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 
 const StyledRoot = styled(Toolbar)(({ theme }) => ({
   height: 96,
