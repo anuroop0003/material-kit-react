@@ -7,13 +7,15 @@ import { Provider } from 'react-redux';
 import ThemeProvider from './theme';
 // components
 import { StyledChart } from './components/chart';
-import Loader from "./components/loader";
+import Loader from './components/loader';
 import { PrivateRoute, PublicRoute } from './routes';
 import store from './stateManagement/store';
 
+const CustomSnackbar = lazy(() => import('./components/snackbar/CustomSnackbar'));
 const ScrollToTop = lazy(() => import('./components/scroll-to-top'));
 const DashboardLayout = lazy(() => import('./layouts/dashboard/DashboardLayout'));
 const AddProducts = lazy(() => import('./pages/AddProducts'));
+const Market = lazy(() => import('./pages/Market'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const DashboardAppPage = lazy(() => import('./pages/DashboardAppPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -26,7 +28,6 @@ const ListSellers = lazy(() => import('./pages/ListSellers'));
 // ------------------------------------------------------------------------
 
 export default function App() {
-
   return (
     <Suspense fallback={<Loader />}>
       <HelmetProvider>
@@ -45,6 +46,7 @@ export default function App() {
                     <Route path="user" element={<UserPage />} />
                     <Route path="products" element={<ProductsPage />} />
                     <Route path="add-product" element={<AddProducts />} />
+                    <Route path="market" element={<Market />} />
                     <Route path="list-seller" element={<ListSellers />} />
                     <Route path="app" element={<DashboardAppPage />} />
                     <Route path="blog" element={<BlogPage />} />
@@ -54,6 +56,7 @@ export default function App() {
               </Routes>
             </ThemeProvider>
           </BrowserRouter>
+          <CustomSnackbar />
         </Provider>
       </HelmetProvider>
     </Suspense>

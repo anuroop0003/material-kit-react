@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
@@ -8,6 +9,7 @@ import { IconButton, InputAdornment, Link, Stack, TextField } from '@mui/materia
 // components
 import Iconify from '../../../components/iconify';
 import APIService from '../../../services/api';
+import { toggleSnackbar } from '../../../stateManagement/Slices/snackbarSlice';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +33,7 @@ export default function LoginForm() {
     },
   });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -47,9 +50,23 @@ export default function LoginForm() {
         setLoading(false);
         navigate('/dashboard/app');
         localStorage.setItem('user_data', JSON.stringify(res?.data?.data));
+        dispatch(
+          toggleSnackbar({
+            isOpen: true,
+            message: res?.data?.message,
+            severity: 'success',
+          })
+        );
       })
       .catch((err) => {
         setLoading(false);
+        dispatch(
+          toggleSnackbar({
+            isOpen: true,
+            message: err?.response?.data?.message,
+            severity: 'error',
+          })
+        );
       });
   };
 

@@ -1,23 +1,13 @@
 import axios from 'axios';
 
-let accesToken = '';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 console.log('BASE_URL', BASE_URL);
-
-const userData = localStorage.getItem('user_data');
-const accesstoken = JSON.parse(userData)?.acces_token;
-
-if (accesstoken) {
-  accesToken = accesstoken;
-} else {
-  accesToken = null;
-}
 
 const AxiosInterceptor = axios.create({
   baseURL: 'http://localhost:5500/',
   headers: {
     'Content-Type': 'application/json',
-    'access-token': accesToken,
+    'access-token': JSON.parse(localStorage.getItem('user_data'))?.acces_token ?? null,
   },
 });
 
@@ -35,6 +25,8 @@ const GetProfile = (data) => AxiosInterceptor.post('/user/profile', data);
 
 const ProductStatus = (data) => AxiosInterceptor.post('/products/status', data);
 
+const ListSellers = (data) => AxiosInterceptor.post(`/seller/list`, data);
+
 const APIService = {
   signIn,
   signUp,
@@ -42,7 +34,8 @@ const APIService = {
   SellerRegister,
   SellerCheck,
   GetProfile,
-  ProductStatus
+  ProductStatus,
+  ListSellers,
 };
 
 export default APIService;

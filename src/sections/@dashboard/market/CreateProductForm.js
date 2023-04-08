@@ -54,7 +54,6 @@ export default function CreateProductForm({ setStepperValue }) {
       maxprice: '',
       file: '',
     },
-
     validationSchema: validationSchem,
     onSubmit: (values) => {
       if (images.length === 0) {

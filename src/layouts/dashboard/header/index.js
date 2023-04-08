@@ -47,19 +47,17 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     APIService.GetProfile()
       .then((res) => {
-        console.log(res?.data?.data);
         dispatch(setdata(res?.data?.data));
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [localStorage.getItem('user_data')]);
 
   return (
     <StyledRoot>

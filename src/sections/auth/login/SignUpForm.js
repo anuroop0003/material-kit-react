@@ -1,25 +1,23 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import {
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Stack,
-  TextField
-} from '@mui/material';
+import { IconButton, InputAdornment, MenuItem, Stack, TextField } from '@mui/material';
 // components
 import Iconify from '../../../components/iconify';
 import APIService from '../../../services/api';
+import { toggleSnackbar } from '../../../stateManagement/Slices/snackbarSlice';
 
 // ----------------------------------------------------------------------
 
 const validationSchem = yup.object({
   name: yup.string('Enter your name').required('Name is required'),
-  usertype: yup.string('Enter user type').required('User type is required'),
+  gender: yup.string('Select gender').required('Gender is required'),
+  usertype: yup.string('Select user type').required('User type is required'),
   mobile: yup
     .string('Enter your mobile number')
     .length(10, 'Mobile number should be 10 digit')
@@ -42,6 +40,11 @@ const options = [
   { id: 'seller', name: 'Seller' },
 ];
 
+const genderOptions = [
+  { id: 'm', name: 'Male' },
+  { id: 'f', name: 'Female' },
+];
+
 export default function LoginForm() {
   const formik = useFormik({
     initialValues: {
@@ -51,6 +54,7 @@ export default function LoginForm() {
       usertype: '',
       setpassword: '',
       confirmpassword: '',
+      gender: '',
     },
     validationSchema: validationSchem,
     onSubmit: (values) => {
@@ -58,6 +62,9 @@ export default function LoginForm() {
     },
   });
 
+  const dispatch = useDispatch();
+  const { showSnackbar } = useSelector((state) => state);
+  console.log('showSnackbar', showSnackbar);
   const navigate = useNavigate();
 
   const [showsetpassword, setShowsetpassword] = useState(false);
@@ -76,13 +83,29 @@ export default function LoginForm() {
       password: values?.confirmpassword,
       usertype: values?.usertype,
       mobile: values?.mobile,
+      gender: values?.gender,
     })
       .then((res) => {
+        console.log('res?.data?.message', res?.data?.message);
         setLoading(false);
+        dispatch(
+          toggleSnackbar({
+            isOpen: true,
+            message: res?.data?.message,
+            severity: 'success',
+          })
+        );
         navigate('/');
       })
       .catch((err) => {
         setLoading(false);
+        dispatch(
+          toggleSnackbar({
+            isOpen: true,
+            message: err?.response?.data?.message,
+            severity: 'error',
+          })
+        );
       });
   };
 
@@ -99,6 +122,23 @@ export default function LoginForm() {
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
           />
+
+          <TextField
+            select
+            name="gender"
+            id="gender"
+            label="Gender"
+            value={formik.values.gender}
+            onChange={formik.handleChange}
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+            helperText={formik.touched.gender && formik.errors.gender}
+          >
+            {genderOptions.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
 
           <TextField
             name="email"

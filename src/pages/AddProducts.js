@@ -24,15 +24,9 @@ export default function AppProducts() {
   return (
     <div>
       <TaskStepper activeStep={stepperValue?.stepper} />
-      {stepperValue?.stepper === -1 && (
-        <SellerOnboarding status={stepperValue.status} />
-      )}
-      {stepperValue?.stepper === 1 && (
-        <CreateProduct setStepperValue={setStepperValue} status={stepperValue.status} />
-      )}
-            {stepperValue?.stepper === 3 && (
-        <ApproveProduct setStepperValue={setStepperValue} status={stepperValue.status} />
-      )}
+      {stepperValue?.stepper === -1 && <SellerOnboarding status={stepperValue.status} />}
+      {stepperValue?.stepper === 1 && <CreateProduct setStepperValue={setStepperValue} status={stepperValue.status} />}
+      {stepperValue?.stepper === 3 && <ApproveProduct setStepperValue={setStepperValue} status={stepperValue.status} />}
     </div>
   );
 }

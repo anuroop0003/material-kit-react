@@ -20,21 +20,31 @@ const navConfig = [
     title: 'List Seller',
     path: '/dashboard/list-seller',
     icon: icon('ic_user'),
+    usertype: ['admin'],
   },
   {
     title: 'add product',
     path: '/dashboard/add-product',
-    icon: icon('ic_user'),
+    icon: icon('ic_cart'),
+    usertype: ['admin'],
+  },
+  {
+    title: 'market',
+    path: '/dashboard/market',
+    icon: icon('ic_cart'),
+    usertype: ['buyer'],
   },
   {
     title: 'product',
     path: '/dashboard/products',
     icon: icon('ic_cart'),
+    usertype: ['buyer'],
   },
   {
     title: 'blog',
     path: '/dashboard/blog',
     icon: icon('ic_blog'),
+    usertype: ['buyer'],
   },
   // {
   //   title: 'login',
