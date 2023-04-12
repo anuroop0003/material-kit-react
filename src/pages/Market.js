@@ -10,25 +10,28 @@ import Loader from '../components/loader/Loader';
 // ----------------------------------------------------------------------
 
 export default function Market() {
-  const [stepperValue, setStepperValue] = useState({ stepper: -1, status: '' });
+  const [stepperValue, setStepperValue] = useState({ stepper: "", status: '' });
   const dispatch = useDispatch();
 
   useEffect(() => {
     APIService.SellerCheck()
       .then((res) => {
-        if (res?.data?.data?.status === 'pending') {
+        if (res?.data?.data?.status === 'pending' && res?.data?.data?.isOnboarded === true) {
           setStepperValue({ stepper: 1, status: 'pending' });
         }
-        if (res?.data?.data?.status === 'success') {
+        if (res?.data?.data?.status === 'success' && res?.data?.data?.isOnboarded === true) {
           setStepperValue({ stepper: 2, status: 'success' });
         }
-        dispatch(
-          toggleSnackbar({
-            isOpen: true,
-            message: res?.data?.message,
-            severity: 'success',
-          })
-        );
+        if (res?.data?.data?.status === 'reject' && res?.data?.data?.isOnboarded === true) {
+          setStepperValue({ stepper: 2, status: 'success' , description: res?.data?.data?.description});
+        }
+        // dispatch(
+        //   toggleSnackbar({
+        //     isOpen: true,
+        //     message: res?.data?.message,
+        //     severity: 'success',
+        //   })
+        // );
         return null;
       })
       .catch((err) => {
@@ -44,17 +47,16 @@ export default function Market() {
 
   function ProcessStepper(stepperValue) {
     switch (true) {
-      case stepperValue?.stepper === 1 && stepperValue?.status === '':
-        return <SellerOnboarding status={stepperValue.status} />;
-      case stepperValue?.stepper === 1 && stepperValue?.status === 'pending':
+      case stepperValue?.stepper === -1:
+        return <SellerOnboarding setStepperValue={setStepperValue} />;
+      case stepperValue?.stepper === 1:
         return <RequestApproval setStepperValue={setStepperValue} />;
       case stepperValue?.stepper === 2:
         return <CreateProduct setStepperValue={setStepperValue} status={stepperValue.status} />;
       case stepperValue?.stepper === 3:
         break;
-      // return <ApproveProduct setStepperValue={setStepperValue}/>;
       default:
-        return <Loader />;
+        return <Loader left="140px" right={0} />;
     }
   }
 

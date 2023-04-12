@@ -10,8 +10,9 @@ import { StyledChart } from './components/chart';
 import Loader from './components/loader';
 import { PrivateRoute, PublicRoute } from './routes';
 import store from './stateManagement/store';
+import CustomSnackbar from "./components/snackbar/CustomSnackbar";
 
-const CustomSnackbar = lazy(() => import('./components/snackbar/CustomSnackbar'));
+// const CustomSnackbar = lazy(() => import('./components/snackbar/CustomSnackbar'));
 const ScrollToTop = lazy(() => import('./components/scroll-to-top'));
 const DashboardLayout = lazy(() => import('./layouts/dashboard/DashboardLayout'));
 const AddProducts = lazy(() => import('./pages/AddProducts'));
@@ -54,9 +55,9 @@ export default function App() {
                 </Route>
                 <Route path="*" element={<Page404 />} />
               </Routes>
+          <CustomSnackbar />
             </ThemeProvider>
           </BrowserRouter>
-          <CustomSnackbar />
         </Provider>
       </HelmetProvider>
     </Suspense>

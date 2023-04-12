@@ -7,22 +7,14 @@ const CustomCard = styled(Card)({
   padding: '30px',
 });
 
-export default function SellerOnboarding({ status }) {
+export default function SellerOnboarding({ setStepperValue }) {
   return (
     <>
-      {/* {status && (
-        <CustomCard>
-          <Typography marginBottom="30px" component="div" width="100%" textAlign="center" fontSize="20px">
-            Seller Onboarding
-          </Typography>
-          <AddProductsForm />
-        </CustomCard>
-      )} */}
       <CustomCard>
         <Typography marginBottom="30px" component="div" width="100%" textAlign="center" fontSize="20px">
           Onboarding Initiated
         </Typography>
-        <AddProductsForm />
+        <AddProductsForm setStepperValue={setStepperValue} />
       </CustomCard>
     </>
   );

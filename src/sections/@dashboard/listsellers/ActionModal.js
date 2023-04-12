@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@mui/material/Button';
@@ -10,6 +11,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { MenuItem, TextField } from '@mui/material';
 import { useEffect } from 'react';
+import APIService from '../../../services/api';
+import { toggleSnackbar } from '../../../stateManagement/Slices/snackbarSlice';
 
 const options = [
     { id: 'success', name: 'Onboard' },
@@ -25,23 +28,22 @@ export default function ActionModal({ state, setState }) {
 
 
     const validationSchem = yup.object().shape({
-        isVerfied: yup.string('Select an option').required('isVerfied is required'),
-        description: yup.string().test("oneOfRequired", "Description is required", (e, val) => {
-            if (val?.parent?.isVerfied !== 'reject') {
-                return true;
-            }
-            return 0;
+        status: yup.string('Select an option').required('status is required'),
+        description: yup.string().when('status', {
+            is: (value) => value === 'reject',
+            then:(schema) => schema.required('Description is required'),
+            otherwise:(schema) => schema.notRequired(),
         })
     });
 
     const formik = useFormik({
         initialValues: {
-            isVerfied: '',
+            status: '',
             description: ""
         },
         validationSchema: validationSchem,
         onSubmit: (values) => {
-            //   CallApi(values);
+              CallApi(values);
         },
     });
 
@@ -54,6 +56,50 @@ export default function ActionModal({ state, setState }) {
         return;
         setState({ type: "", view: false });
     };
+
+    const dispatch = useDispatch();
+
+    const CallApi = (values) => {
+        setState({ type: "", view: false });
+        if(state?.type === "edit") {
+            APIService.ApproveSellers({...values,  userId: state?.id}).then((res) => {
+                dispatch(
+                    toggleSnackbar({
+                      isOpen: true,
+                      message: res?.data?.message,
+                      severity: 'success',
+                    })
+                  );
+            }).catch((err) => {
+                dispatch(
+                    toggleSnackbar({
+                      isOpen: true,
+                      message: err?.response?.data?.message,
+                      severity: 'error',
+                    })
+                  );
+            })
+        }
+        if(state?.type === "delete") {
+            APIService.DeleteSellers({...values,  userId: state?.id}).then((res) => {
+                dispatch(
+                    toggleSnackbar({
+                      isOpen: true,
+                      message: res?.data?.message,
+                      severity: 'success',
+                    })
+                  );
+            }).catch((err) => {
+                dispatch(
+                    toggleSnackbar({
+                      isOpen: true,
+                      message: err?.response?.data?.message,
+                      severity: 'error',
+                    })
+                  );
+            })
+        }
+    }
 
     switch (true) {
         case state?.type === "delete":
@@ -99,13 +145,13 @@ export default function ActionModal({ state, setState }) {
                             <TextField
                                 sx={{ width: "300px", margin: "10px 0" }}
                                 select
-                                name="isVerfied"
-                                id="isVerfied"
+                                name="status"
+                                id="status"
                                 label="Onboard Vendor"
-                                value={formik.values.isVerfied}
+                                value={formik.values.status}
                                 onChange={formik.handleChange}
-                                error={formik.touched.isVerfied && Boolean(formik.errors.isVerfied)}
-                                helperText={formik.touched.isVerfied && formik.errors.isVerfied}
+                                error={formik.touched.status && Boolean(formik.errors.status)}
+                                helperText={formik.touched.status && formik.errors.status}
                             >
                                 {options.map((option) => (
                                     <MenuItem key={option.id} value={option.id}>
@@ -113,7 +159,7 @@ export default function ActionModal({ state, setState }) {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                            {formik.values.isVerfied === "reject" &&
+                            {formik.values.status === "reject" &&
                                 <TextField
                                     fullWidth
                                     multiline

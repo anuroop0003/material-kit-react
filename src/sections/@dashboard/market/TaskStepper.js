@@ -2,7 +2,7 @@ import { Step, StepLabel, Stepper } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const steps = ['Onboard Completed', 'Create a product', 'Approval'];
+const steps = ['Onboard Completed', 'Market'];
 
 // ----------------------------------------------------------------------
 

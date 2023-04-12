@@ -19,7 +19,7 @@ const validationSchem = yup.object({
   pincode: yup.string('Enter your company pin code').required('Company pin code is required'),
 });
 
-export default function AddProductsForm() {
+export default function AddProductsForm({setStepperValue}) {
   const formik = useFormik({
     initialValues: {
       companyname: '',
@@ -48,7 +48,7 @@ export default function AddProductsForm() {
     })
       .then((res) => {
         setLoading(false);
-        console.log('res', res?.data);
+        setStepperValue({ stepper: 1, status: 'success' });
         dispatch(
           toggleSnackbar({
             isOpen: true,

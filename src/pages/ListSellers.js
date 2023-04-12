@@ -80,7 +80,6 @@ export default function ListSellers() {
 
   useEffect(() => {
     APIService.ListSellers().then((res) => {
-      console.log(res?.data?.data);
       setUSERLIST(res?.data?.data);
     });
     setUSERLIST();
@@ -125,11 +124,11 @@ export default function ListSellers() {
   const avatarColor = RandomColorSelector();
 
   const handleEdit = (id) => {
-    setActionModal({ type: "edit", view: true });
+    setActionModal({ type: "edit", view: true , id});
   }
 
   const handleDelete = (id) => {
-    setActionModal({ type: "delete", view: true });
+    setActionModal({ type: "delete", view: true, id });
   }
 
   return (

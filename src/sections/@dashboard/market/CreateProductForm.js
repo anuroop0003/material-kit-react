@@ -81,7 +81,6 @@ export default function CreateProductForm({ setStepperValue }) {
       file: images,
     })
       .then((res) => {
-        console.log(res);
         setLoading(false);
         setStepperValue({ stepper: 3, status: 'success' });
       })

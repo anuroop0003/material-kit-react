@@ -64,7 +64,6 @@ export default function LoginForm() {
 
   const dispatch = useDispatch();
   const { showSnackbar } = useSelector((state) => state);
-  console.log('showSnackbar', showSnackbar);
   const navigate = useNavigate();
 
   const [showsetpassword, setShowsetpassword] = useState(false);
@@ -86,7 +85,6 @@ export default function LoginForm() {
       gender: values?.gender,
     })
       .then((res) => {
-        console.log('res?.data?.message', res?.data?.message);
         setLoading(false);
         dispatch(
           toggleSnackbar({
