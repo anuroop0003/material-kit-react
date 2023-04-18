@@ -75,6 +75,7 @@ export default function LoginForm() {
       <form onSubmit={formik.handleSubmit}>
         <Stack spacing={3}>
           <TextField
+          autoComplete="on"
             name="email"
             id="email"
             label="Email"
@@ -85,6 +86,7 @@ export default function LoginForm() {
           />
 
           <TextField
+          autoComplete="on"
             name="password"
             id="password"
             label="Password"

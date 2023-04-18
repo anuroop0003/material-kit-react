@@ -11,6 +11,7 @@ import Loader from './components/loader';
 import { PrivateRoute, PublicRoute } from './routes';
 import store from './stateManagement/store';
 import CustomSnackbar from "./components/snackbar/CustomSnackbar";
+import ModalProvider from './components/ModalProvider/ModalProvider';
 
 // const CustomSnackbar = lazy(() => import('./components/snackbar/CustomSnackbar'));
 const ScrollToTop = lazy(() => import('./components/scroll-to-top'));
@@ -37,6 +38,7 @@ export default function App() {
             <ThemeProvider>
               <ScrollToTop />
               <StyledChart />
+              <ModalProvider>
               <Routes>
                 <Route path="/" element={<PublicRoute />}>
                   <Route path="/" element={<LoginPage />} />
@@ -55,9 +57,10 @@ export default function App() {
                 </Route>
                 <Route path="*" element={<Page404 />} />
               </Routes>
-          <CustomSnackbar />
+              </ModalProvider>
             </ThemeProvider>
           </BrowserRouter>
+      {/* <CustomSnackbar /> */}
         </Provider>
       </HelmetProvider>
     </Suspense>
